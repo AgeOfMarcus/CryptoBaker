@@ -18,5 +18,5 @@ class XOR:
                 return raw ^ dat
             except:
                 return bin(int(raw, 2) ^ int(dat, 2))[2:].zfill(len(raw))
-    def __repr__(self):
+    def __name__(self):
         return "XOR(%r)" % self.dat
