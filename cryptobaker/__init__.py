@@ -35,3 +35,9 @@ class Dish(object):
         return Dish(self.raw + x, recipe=self.recipe)
     def __radd__(self, x):
         return Dish(x + self.raw, recipe=self.recipe)
+    def __eq__(self, x):
+        return self.raw == getattr(x, "raw", x)
+    def __getattribute__(self, name):
+        return self.raw[name]
+    def __getitem__(self, i):
+        return self.raw[i]
