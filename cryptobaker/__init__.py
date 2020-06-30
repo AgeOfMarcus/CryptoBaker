@@ -23,8 +23,12 @@ class Dish(object):
         self.raw = raw
         self.recipe = recipe
     
-    def apply(self, recipe):
+    def apply(self, recipe, arg=None):
         r = self.recipe.copy()
+
+        if arg:
+            recipe = recipe(arg)
+
         r.append(recipe)
         return Dish(recipe.cook(self.raw), recipe=r)
     
@@ -37,7 +41,3 @@ class Dish(object):
         return Dish(x + self.raw, recipe=self.recipe)
     def __eq__(self, x):
         return self.raw == getattr(x, "raw", x)
-    def __getattribute__(self, name):
-        return self.raw[name]
-    def __getitem__(self, i):
-        return self.raw[i]
