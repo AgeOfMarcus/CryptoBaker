@@ -1,5 +1,25 @@
 # CryptoBaker
 
+# `Dish` and `Recipe` objects
+
+The `Dish` object is what you start with. Recipes can only be applied to dishes. You create a dish like so: `x = Dish("Hello, world!")`
+
+A `Recipe` object will be seen less often, but it can be useful in some cases. Let's say you've made a dish like so, `x = Dish("hello world").apply(toDecimal).apply(toMorse)`, and want to create another dish with the same recipe. The recipe of any dish can be accessed through the `.recipe` attribute, eg: `x.recipe` which will return `<Recipe: toDecimal -> toMorse>`. To make another dish with the recipe from `x`, you would do: `y = Dish(x.recipe.cook("goodbye world"), recipe=x.recipe)`. You do not necessarily need to specify the new dish's recipe.
+
+# recipes
+
+Some recipes have no arguments, they are applied like so: `x.apply(toBase64)`. Some recipes require argument(s) and/or keyword argument(s), they can be applied in two ways, either like `x.apply(XOR("0110"))`, or like this `x.apply(XOR, "0110")`. Both do the same thing. 
+
+Similarly, keyword arguments can be applied in two ways. `x.apply(toMorse(dot="*"))` or `x.apply(toMorse, dot="*")`.
+
+Not all recipes begin with `to` or `from`. Some examples are:
+
+* `XOR` - this is because to reverse the process, you just apply XOR again with the same key
+* `split` - this is a string manipulation method, it can be 'reversed' with `join`
+* `join` - this is a list manipulation method, it can be 'reversed' with `split`
+
+Not all recipes that begin with `to` have a counterpart. For example, all of the hashing recipes (such as `toSHA256`). This is because hashes are irreversable by nature.
+
 # Examples
 
 ## Good hashing recipe

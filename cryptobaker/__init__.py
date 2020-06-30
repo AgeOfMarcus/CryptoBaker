@@ -11,7 +11,7 @@ class Recipe(object):
         return dish
     
     def __repr__(self):
-        return "<Recipe: %s>" % (" -> ".join(map(lambda x: x.__name__, self.recipe)))
+        return "<Recipe: %s>" % (" -> ".join(map((lambda x: x.__name__ if type(x.__name__) == str else x.__name__()), self.recipe)))
     
     def append(self, recipe):
         self.recipe.append(recipe)
@@ -23,11 +23,13 @@ class Dish(object):
         self.raw = raw
         self.recipe = recipe
     
-    def apply(self, recipe, arg=None):
+    def apply(self, recipe, *args, **kwargs):
         r = self.recipe.copy()
 
-        if arg:
-            recipe = recipe(arg)
+        try:
+            recipe = recipe(*args, **kwargs)
+        except TypeError:
+            pass
 
         r.append(recipe)
         return Dish(recipe.cook(self.raw), recipe=r)
