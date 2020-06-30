@@ -5,6 +5,7 @@ class Recipe(object):
         self.recipe = list(args)
     
     def cook(self, dish):
+        dish = getattr(dish, "raw", dish)
         for r in self.recipe:
             dish = r.cook(dish)
         return dish
@@ -29,3 +30,8 @@ class Dish(object):
     
     def __repr__(self):
         return repr(self.raw)
+    
+    def __add__(self, x):
+        return Dish(self.raw + x, recipe=self.recipe)
+    def __radd__(self, x):
+        return Dish(x + self.raw, recipe=self.recipe)

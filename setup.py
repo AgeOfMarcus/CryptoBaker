@@ -5,7 +5,7 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 setuptools.setup(name="CryptoBaker",
-    version="0.0.1",
+    version="0.1.0",
     description="Crypto Bakery",
     long_description=read("README.md"),
     url="https://github.com/AgeOfMarcus/CryptoBaker",

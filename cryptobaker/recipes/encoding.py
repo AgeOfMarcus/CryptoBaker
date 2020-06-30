@@ -15,7 +15,7 @@ class toDecimal:
 
 class fromDecimal:
     def cook(raw):
-        return ' '.join(list(map(chr, raw)))
+        return list(map(chr, raw))
 
 class toBinary:
     def cook(raw):
@@ -23,6 +23,8 @@ class toBinary:
 
 class fromBinary:
     def cook(raw):
+        if ' ' in raw:
+            raw = raw.split(" ")
         return [int(x, 2) for x in raw]
 
 class toHex:
