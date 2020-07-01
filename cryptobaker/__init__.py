@@ -34,6 +34,10 @@ class Dish(object):
     
     def __repr__(self):
         return repr(self.raw)
+    def __str__(self):
+        if type(self.raw) == str:
+            return self.raw
+        return str(self.raw)
     
     def __add__(self, x):
         return Dish(self.raw + x, recipe=self.recipe)
