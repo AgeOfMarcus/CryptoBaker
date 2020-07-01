@@ -1,4 +1,4 @@
-import base64, urllib.parse, hexdump
+import base64, urllib.parse, hexdump, uuid
 from .util import check, dec
 
 _morse = {'A': '.-',     'B': '-...',   'C': '-.-.', 
@@ -20,10 +20,37 @@ _morse = {'A': '.-',     'B': '-...',   'C': '-.-.',
 class toBase64:
     def cook(raw):
         return base64.b64encode(check(raw)).decode()
-
 class fromBase64:
     def cook(raw):
         return dec(base64.b64decode(check(raw)))
+
+class toAscii85:
+    def cook(raw):
+        return base64.a85encode(check(raw)).decode()
+class fromAscii85:
+    def cook(raw):
+        return dec(base64.a85decode(check(raw)))
+
+class toBase16:
+    def cook(raw):
+        return base64.b16encode(check(raw)).decode()
+class fromBase16:
+    def cook(raw):
+        return dec(base64.b16decode(check(raw)))
+
+class toBase32:
+    def cook(raw):
+        return base64.b32encode(check(raw)).decode()
+class fromBase32:
+    def cook(raw):
+        return dec(base64.b32decode(check(raw)))
+
+class toBase85:
+    def cook(raw):
+        return base64.b85encode(check(raw)).decode()
+class fromBase85:
+    def cook(raw):
+        return dec(base64.b85decode(check(raw)))
 
 class toDecimal:
     def cook(raw):
@@ -108,3 +135,17 @@ class toHexdump:
 class fromHexdump:
     def cook(raw):
         return hexdump.restore(raw)
+
+class toUUID:
+    def cook(raw):
+        return str(uuid.UUID(bytes=check(raw)))
+class fromUUID:
+    def cook(raw):
+        return dec(uuid.UUID(raw).bytes)
+
+class toOctal:
+    def cook(raw):
+        return [oct(i)[2:] for i in raw]
+class fromOctal:
+    def cook(raw):
+        return [int(i, 8) for i in raw]

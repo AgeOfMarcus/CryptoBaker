@@ -29,7 +29,10 @@ class Dish(object):
         if args or kwargs:
             recipe = recipe(*args, **kwargs)
 
-        r.append(recipe)
+        if type(recipe) == Recipe:
+            r += recipe.recipe
+        else:
+            r.append(recipe)
         return Dish(recipe.cook(self.raw), recipe=r)
     
     def __repr__(self):
