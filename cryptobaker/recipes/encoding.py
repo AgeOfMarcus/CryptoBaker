@@ -1,4 +1,4 @@
-import base64
+import base64, urllib.parse, hexdump
 from .util import check, dec
 
 _morse = {'A': '.-',     'B': '-...',   'C': '-.-.', 
@@ -45,8 +45,6 @@ class fromBinary:
 
 class toHex:
     def cook(raw):
-        if " " in raw:
-            raw = map(int, raw.split(" "))
         if type(raw) == str:
             raw = map(ord, raw)
         return [hex(i) for i in raw]
@@ -94,3 +92,19 @@ class fromMorse:
             return "fromMorse(dot=%r, dash=%r, unknown=%r)" % (
                 self.dot, self.dash, self.unknown
             )
+
+class URLEncode:
+    def cook(raw):
+        return urllib.parse.quote_plus(raw)
+
+class URLDecode:
+    def cook(raw):
+        return urllib.parse.unquote(raw)
+
+class toHexdump:
+    def cook(raw):
+        return hexdump.hexdump(check(raw), result="return")
+    
+class fromHexdump:
+    def cook(raw):
+        return hexdump.restore(raw)
