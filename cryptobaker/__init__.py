@@ -26,10 +26,8 @@ class Dish(object):
     def apply(self, recipe, *args, **kwargs):
         r = self.recipe.copy()
 
-        try:
+        if args or kwargs:
             recipe = recipe(*args, **kwargs)
-        except TypeError:
-            pass
 
         r.append(recipe)
         return Dish(recipe.cook(self.raw), recipe=r)
