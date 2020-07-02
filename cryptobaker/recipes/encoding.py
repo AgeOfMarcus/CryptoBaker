@@ -160,7 +160,7 @@ class fromHTML:
 
 class toBraille:
     def cook(raw):
-        return ''.join([_braille.get(i, "?") for i in raw])
+        return ''.join([_braille.get(i.lower(), "?") for i in raw])
 class fromBraille:
     def cook(raw):
         return ''.join([{v:k for k,v in _braille.items()}.get(i, "?") for i in raw])
