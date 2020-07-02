@@ -1,4 +1,4 @@
-import base64, urllib.parse, hexdump, uuid
+import base64, urllib.parse, hexdump, uuid, html
 from .util import check, dec
 
 _morse = {'A': '.-',     'B': '-...',   'C': '-.-.', 
@@ -16,6 +16,7 @@ _morse = {'A': '.-',     'B': '-...',   'C': '-.-.',
         '6': '-....',  '7': '--...',  '8': '---..',
         '9': '----.', ' ': '/'
 }
+_braille = {' ': '⠀', '!': '⠮', '"': '⠐', '#': '⠼', '$': '⠫', '%': '⠩', '&': '⠯', '': '⠄', '(': '⠷', ')': '⠾', '*': '⠡', '+': '⠬', ',': '⠠', '-': '⠤', '.': '⠨', '/': '⠌', '0': '⠴', '1': '⠂', '2': '⠆', '3': '⠒', '4': '⠲', '5': '⠢', '6': '⠖', '7': '⠶', '8': '⠦', '9': '⠔', ':': '⠱', ';': '⠰', '<': '⠣', '=': '⠿', '>': '⠜', '?': '⠹', '@': '⠈', 'a': '⠁', 'b': '⠃', 'c': '⠉', 'd': '⠙', 'e': '⠑', 'f': '⠋', 'g': '⠛', 'h': '⠓', 'i': '⠊', 'j': '⠚', 'k': '⠅', 'l': '⠇', 'm': '⠍', 'n': '⠝', 'o': '⠕', 'p': '⠏', 'q': '⠟', 'r': '⠗', 's': '⠎', 't': '⠞', 'u': '⠥', 'v': '⠧', 'w': '⠺', 'x': '⠭', 'y': '⠽', 'z': '⠵', '[': '⠪', '\\': '⠳', ']': '⠻', '^': '⠘', '_': '⠸'}
 
 class toBase64:
     def cook(raw):
@@ -120,11 +121,11 @@ class fromMorse:
                 self.dot, self.dash, self.unknown
             )
 
-class URLEncode:
+class toURL:
     def cook(raw):
         return urllib.parse.quote_plus(raw)
 
-class URLDecode:
+class fromURL:
     def cook(raw):
         return urllib.parse.unquote(raw)
 
@@ -149,3 +150,17 @@ class toOctal:
 class fromOctal:
     def cook(raw):
         return [int(i, 8) for i in raw]
+
+class toHTML:
+    def cook(raw):
+        return html.escape(raw)
+class fromHTML:
+    def cook(raw):
+        return html.unescape(raw)
+
+class toBraille:
+    def cook(raw):
+        return ''.join([_braille.get(i, "?") for i in raw])
+class fromBraille:
+    def cook(raw):
+        return ''.join([{v:k for k,v in _braille.items()}.get(i, "?") for i in raw])

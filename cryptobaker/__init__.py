@@ -1,4 +1,6 @@
 from .recipes import *
+from . import recipies as _recipies
+import json
 
 def Bake(raw, recipe):
     return Dish(recipe.cook(raw), recipe=recipe)
@@ -14,12 +16,15 @@ class Recipe(object):
         return dish
     
     def __repr__(self):
-        return "<Recipe: %s>" % (" -> ".join(map((lambda x: x.__name__ if type(x.__name__) == str else x.__name__()), self.recipe)))
+        return "<Recipe: %s>" % (" -> ".join(self.toDict()['recipe']))
     
     def append(self, recipe):
         self.recipe.append(recipe)
     def copy(self):
         return Recipe(*self.recipe)
+    
+    def toDict(self):
+        return {'recipe': list(map((lambda x: x.__name__ if type(x.__name__) == str else x.__name__()), self.recipe))}
 
 class Dish(object):
     def __init__(self, raw, recipe=Recipe()):
@@ -57,6 +62,8 @@ class Dish(object):
         return bool(self.raw)
     
     def __getitem__(self, key):
-        return self.raw[key]
+        return Dish(self.raw[key], recipe=self.recipe)
     def __setitem__(self, key, value):
         self.raw[key] = value
+    def __iter__(self):
+        return iter(map(Dish, self.raw))
