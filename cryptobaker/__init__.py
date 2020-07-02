@@ -1,5 +1,8 @@
 from .recipes import *
 
+def Bake(raw, recipe):
+    return Dish(recipe.cook(raw), recipe=recipe)
+
 class Recipe(object):
     def __init__(self, *args):
         self.recipe = list(args)
@@ -48,3 +51,12 @@ class Dish(object):
         return Dish(x + self.raw, recipe=self.recipe)
     def __eq__(self, x):
         return self.raw == getattr(x, "raw", x)
+    def __len__(self):
+        return len(self.raw)
+    def __nonzero__(self):
+        return bool(self.raw)
+    
+    def __getitem__(self, key):
+        return self.raw[key]
+    def __setitem__(self, key, value):
+        self.raw[key] = value

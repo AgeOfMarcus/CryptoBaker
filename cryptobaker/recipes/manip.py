@@ -6,7 +6,7 @@ class join:
         return d.join(args[-1])
     def __name__(*args):
         if args:
-            return "join(%r)" % args[0].delim
+            return "join(%r)" % args[0].d
         return "join"
 
 class split:
@@ -17,7 +17,7 @@ class split:
         return args[-1].split(d)
     def __name__(*args):
         if args:
-            return "split(%r)" % args[0].delim
+            return "split(%r)" % args[0].d
         return "split"
 
 class encode:
