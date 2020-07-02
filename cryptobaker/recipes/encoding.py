@@ -75,7 +75,7 @@ class toHex:
     def cook(raw):
         if type(raw) == str:
             raw = map(ord, raw)
-        return [hex(i) for i in raw]
+        return [hex(i)[2:] for i in raw]
 
 class fromHex:
     def cook(raw):

@@ -20,6 +20,10 @@ class Recipe(object):
         self.recipe.append(recipe)
     def copy(self):
         return Recipe(*self.recipe)
+    def __add__(self, x):
+        return Recipe(self.recipe + getattr(x, "recipe", x))
+    def __radd__(self, x):
+        return Recipe(getattr(x, "recipe", x) + self.recipe)
     
     def toDict(self):
         return {'recipe': list(map((lambda x: x.__name__ if type(x.__name__) == str else x.__name__()), self.recipe))}
@@ -36,7 +40,7 @@ class Dish(object):
             recipe = recipe(*args, **kwargs)
 
         if type(recipe) == Recipe:
-            r += recipe.recipe
+            r.recipe += recipe.recipe
         else:
             r.append(recipe)
         return Dish(recipe.cook(self.raw), recipe=r)

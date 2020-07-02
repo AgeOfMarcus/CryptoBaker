@@ -1,3 +1,5 @@
+import re
+
 class join:
     def __init__(self, delim=""):
         self.d = delim
@@ -39,3 +41,27 @@ class decode:
     def __name__(*args):
         if args: return "decode(%r)" % args[0].f
         return "decode"
+
+class foreach:
+    def __init__(self, fn):
+        self.fn = fn
+    def cook(self, raw):
+        return [self.fn(i) for i in raw]
+    def __name__(self):
+        return "foreach(...)"
+
+class splitevery:
+    def __init__(self, i):
+        self.i = i
+    def cook(self, raw):
+        return re.findall(("." * self.i) + "?", raw)
+    def __name__(self):
+        return "splitevery(%r)" % self.i
+
+class regex:
+    def __init__(self, exp):
+        self.exp = exp
+    def cook(self, raw):
+        return re.findall(self.exp, raw)
+    def __name__(self):
+        return "regex(%r)" % self.exp
