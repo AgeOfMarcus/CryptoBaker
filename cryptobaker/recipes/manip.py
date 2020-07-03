@@ -65,3 +65,12 @@ class regex:
         return re.findall(self.exp, raw)
     def __name__(self):
         return "regex(%r)" % self.exp
+
+class replace:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+    def cook(self, raw):
+        return raw.replace(self.x, self.y)
+    def __name__(self):
+        return "replace(%r -> %r)" % (self.x, self.y)
