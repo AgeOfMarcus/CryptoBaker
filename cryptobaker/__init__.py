@@ -12,6 +12,12 @@ class Recipe(object):
         for r in self.recipe:
             dish = r.cook(dish)
         return dish
+
+    def reversed(self):
+        nr = []
+        for recipe in self.recipe[::-1]:
+            nr.append(getattr(recipe, "reverse", recipe))
+        return Recipe(*nr)
     
     def __repr__(self):
         return "<Recipe: %s>" % (" -> ".join(self.toDict()['recipe']))

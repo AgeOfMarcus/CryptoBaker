@@ -3,6 +3,7 @@ from .errors import ArgumentException
 class XOR:
     def __init__(self, dat):
         self.dat = dat
+        self.reverse = self
     def cook(*args):
         dat = getattr(args[0], "dat", False)
         if not dat: raise ArgumentException
@@ -24,6 +25,7 @@ class XOR:
 class Caesar:
     def __init__(self, shift=1):
         self.shift = shift
+        self.reverse = Caesar(shift=0-shift)
     def cook(*args):
         shift = getattr(args[0], "shift", 1)
         alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
