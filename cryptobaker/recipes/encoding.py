@@ -19,81 +19,65 @@ _morse = {'A': '.-',     'B': '-...',   'C': '-.-.',
 _braille = {' ': '⠀', '!': '⠮', '"': '⠐', '#': '⠼', '$': '⠫', '%': '⠩', '&': '⠯', '': '⠄', '(': '⠷', ')': '⠾', '*': '⠡', '+': '⠬', ',': '⠠', '-': '⠤', '.': '⠨', '/': '⠌', '0': '⠴', '1': '⠂', '2': '⠆', '3': '⠒', '4': '⠲', '5': '⠢', '6': '⠖', '7': '⠶', '8': '⠦', '9': '⠔', ':': '⠱', ';': '⠰', '<': '⠣', '=': '⠿', '>': '⠜', '?': '⠹', '@': '⠈', 'a': '⠁', 'b': '⠃', 'c': '⠉', 'd': '⠙', 'e': '⠑', 'f': '⠋', 'g': '⠛', 'h': '⠓', 'i': '⠊', 'j': '⠚', 'k': '⠅', 'l': '⠇', 'm': '⠍', 'n': '⠝', 'o': '⠕', 'p': '⠏', 'q': '⠟', 'r': '⠗', 's': '⠎', 't': '⠞', 'u': '⠥', 'v': '⠧', 'w': '⠺', 'x': '⠭', 'y': '⠽', 'z': '⠵', '[': '⠪', '\\': '⠳', ']': '⠻', '^': '⠘', '_': '⠸'}
 
 class toBase64:
-    reverse = fromBase64
     def cook(raw):
         return base64.b64encode(check(raw)).decode()
 class fromBase64:
-    reverse = toBase64
     def cook(raw):
         return dec(base64.b64decode(check(raw)))
 
 class toAscii85:
-    reverse = fromAscii85
     def cook(raw):
         return base64.a85encode(check(raw)).decode()
 class fromAscii85:
-    reverse = toAscii85
     def cook(raw):
         return dec(base64.a85decode(check(raw)))
 
 class toBase16:
-    reverse = fromBase16
     def cook(raw):
         return base64.b16encode(check(raw)).decode()
 class fromBase16:
-    reverse = toBase16
     def cook(raw):
         return dec(base64.b16decode(check(raw)))
 
 class toBase32:
-    reverse = fromBase32
     def cook(raw):
         return base64.b32encode(check(raw)).decode()
 class fromBase32:
-    reverse = toBase32
     def cook(raw):
         return dec(base64.b32decode(check(raw)))
 
 class toBase85:
-    reverse = fromBase85
     def cook(raw):
         return base64.b85encode(check(raw)).decode()
 class fromBase85:
-    reverse = toBase85
     def cook(raw):
         return dec(base64.b85decode(check(raw)))
 
 class toDecimal:
-    reverse = fromDecimal
     def cook(raw):
         return list(map(ord, raw))
 
 class fromDecimal:
-    reverse = toDecimal
     def cook(raw):
         return list(map(chr, raw))
 
 class toBinary:
-    reverse = fromBinary
     def cook(raw):
         return [format(x, 'b') for x in raw]
 
 class fromBinary:
-    reverse = toBinary
     def cook(raw):
         if ' ' in raw:
             raw = raw.split(" ")
         return [int(x, 2) for x in raw]
 
 class toHex:
-    reverse = fromHex
     def cook(raw):
         if type(raw) == str:
             raw = map(ord, raw)
         return [hex(i)[2:] for i in raw]
 
 class fromHex:
-    reverse = toHex
     def cook(raw):
         return [int(x, 16) for x in raw]
 
@@ -102,7 +86,6 @@ class toMorse:
         self.dot = dot
         self.dash = dash
         self.unknown = unknown
-        self.reverse = fromMorse(dot=dot, dash=dash, unknown=unknown)
     def cook(*args):
         dot = getattr(args[0], "dot", ".")
         dash = getattr(args[0], "dash", "-")
@@ -123,7 +106,6 @@ class fromMorse:
         self.dot = dot
         self.dash = dash
         self.unknown = unknown
-        self.reverse = toMorse(dot=dot, dash=dash, unknown=unknown)
     def cook(*args):
         dot = getattr(args[0], "dot", ".")
         dash = getattr(args[0], "dash", "-")
@@ -140,57 +122,45 @@ class fromMorse:
             )
 
 class toURL:
-    reverse = fromURL
     def cook(raw):
         return urllib.parse.quote_plus(raw)
 
 class fromURL:
-    reverse = toURL
     def cook(raw):
         return urllib.parse.unquote(raw)
 
 class toHexdump:
-    reverse = fromHexdump
     def cook(raw):
         return hexdump.hexdump(check(raw), result="return")
     
 class fromHexdump:
-    reverse = toHexdump
     def cook(raw):
         return hexdump.restore(raw)
 
 class toUUID:
-    reverse = fromUUID
     def cook(raw):
         return str(uuid.UUID(bytes=check(raw)))
 class fromUUID:
-    reverse = toUUID
     def cook(raw):
         return dec(uuid.UUID(raw).bytes)
 
 class toOctal:
-    reverse = fromOctal
     def cook(raw):
         return [oct(i)[2:] for i in raw]
 class fromOctal:
-    reverse = toOctal
     def cook(raw):
         return [int(i, 8) for i in raw]
 
 class toHTML:
-    reverse = fromHTML
     def cook(raw):
         return html.escape(raw)
 class fromHTML:
-    reverse = toHTML
     def cook(raw):
         return html.unescape(raw)
 
 class toBraille:
-    reverse = fromBraille
     def cook(raw):
         return ''.join([_braille.get(i.lower(), "?") for i in raw])
 class fromBraille:
-    reverse = toBraille
     def cook(raw):
         return ''.join([{v:k for k,v in _braille.items()}.get(i, "?") for i in raw])

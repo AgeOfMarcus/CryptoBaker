@@ -3,7 +3,6 @@ import re
 class join:
     def __init__(self, delim=""):
         self.d = delim
-        self.reverse = split
     def cook(*args):
         d = getattr(args[0], "d", "")
         return d.join(args[-1])
@@ -15,7 +14,6 @@ class join:
 class split:
     def __init__(self, delim=" "):
         self.d = delim
-        self.reverse = join
     def cook(*args):
         d = getattr(args[0], "d", " ")
         return args[-1].split(d)
@@ -27,7 +25,6 @@ class split:
 class encode:
     def __init__(self, f="utf-8"):
         self.f = f
-        self.reverse = decode(f=f)
     def cook(*args):
         f = getattr(args[0], "f", "utf-8")
         return args[-1].encode(f)
@@ -38,7 +35,6 @@ class encode:
 class decode:
     def __init__(self, f="utf-8"):
         self.f = f
-        self.reverse = encode(f=f)
     def cook(*args):
         f = getattr(args[0], "f", "utf-8")
         return args[-1].decode(f)
@@ -74,7 +70,6 @@ class replace:
     def __init__(self, x, y):
         self.x = x
         self.y = y
-        self.reverse = replace(y, x)
     def cook(self, raw):
         return raw.replace(self.x, self.y)
     def __name__(self):
